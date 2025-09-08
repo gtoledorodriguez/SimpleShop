@@ -5,22 +5,23 @@
   "dockerComposeFile": "docker-compose.yml", // Location of docker-compose.yml file
   "service": "devcontainer", // Where the image is specified in the docker-compose.yml
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}", // Where to mount the workspace folder
-
   // Container environment variables to ensure database connection works
   "containerEnv": {
     "PGHOST": "localhost",
     "PGUSER": "student",
     "PGPASSWORD": "postgres",
     "PGDATABASE": "postgres",
-    "DATABASE_URL": "postgres://student:postgres@localhost:5432/rails_8_template?encoding=utf8&pool=5&timeout=5000"
+    // "DATABASE_URL": "postgres://student:postgres@localhost:5432/rails_8_template?encoding=utf8&pool=5&timeout=5000",
+    "DATABASE_URL": "postgresql://0ta1al:xau_3I1dZRjUvmsDjD6Fvha9npxzwpRDcgnr0@us-east-1.sql.xata.sh/simple-shop:main?sslmode=require"
   },
-
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
-
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [3000, 4567, 9292],
-
+  "forwardPorts": [
+    3000,
+    4567,
+    9292
+  ],
   "portsAttributes": {
     "3000": {
       "onAutoForward": "silent"
@@ -32,24 +33,24 @@
       "onAutoForward": "silent"
     }
   },
-
-  "otherPortsAttributes": {"onAutoForward": "ignore"},
-
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  },
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": "bin/setup && gem install rufo && gem install htmlbeautifier",
-
   // Configure tool-specific properties.
   "customizations": {
     "vscode": {
-      "extensions": ["vortizhe.simple-ruby-erb",
-                     "mbessey.vscode-rufo",
-                     "aliariff.vscode-erb-beautify",
-                     "eamodio.gitlens",
-                     "setobiralo.erb-commenter",
-                     "firstdraft.terminal-clear"]
+      "extensions": [
+        "vortizhe.simple-ruby-erb",
+        "mbessey.vscode-rufo",
+        "aliariff.vscode-erb-beautify",
+        "eamodio.gitlens",
+        "setobiralo.erb-commenter",
+        "firstdraft.terminal-clear"
+      ]
     }
   }
-
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"
 }

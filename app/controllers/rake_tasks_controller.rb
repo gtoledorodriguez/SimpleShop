@@ -11,7 +11,7 @@ class RakeTasksController < ApplicationController
   def run_task
     # Re-enable the task if it has already been executed
     Rake::Task["sample_data"].reenable
-    
+
     # Run the rake task
     Rake::Task["sample_data"].invoke
 

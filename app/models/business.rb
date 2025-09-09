@@ -10,4 +10,6 @@
 #  owner_id    :integer
 #
 class Business < ApplicationRecord
+  has_many :items, class_name: "Item", foreign_key: "business_id", dependent: :destroy
+  belongs_to :owner, required: true, class_name: "User", foreign_key: "owner_id", counter_cache: true
 end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :sales
   resources :items
   root businesses#index
   devise_for :users

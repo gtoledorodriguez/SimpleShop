@@ -27,4 +27,6 @@ class User < ApplicationRecord
 
   has_many  :sales, class_name: "Sale", foreign_key: "user_id", dependent: :nullify
   has_many  :businesses, class_name: "Business", foreign_key: "owner_id", dependent: :destroy
+
+  has_many :items_sold, through: :sales, source: :item
 end

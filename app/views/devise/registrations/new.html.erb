@@ -1,25 +1,110 @@
-<h2>Sign up</h2>
+<div class="row">
+  <div class="offset-md-3 col-md-6">
+    <div class="card mb-3">
+      <h5 class="card-header">Sign Up</h5>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+      <div class="card-body">
+        <% if flash[:notice].present? %>
+          <div class="alert alert-info" role="alert">
+            <%= flash[:notice] %>
+          </div>
+        <% end %>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+        <% if flash[:alert].present? %>
+          <div class="alert alert-danger" role="alert">
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
+
+        <% was_validated = resource.errors.any? %>
+        <% form_html_options = { novalidate: true, class: "mb-3" } %>
+
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: form_html_options) do |f| %>
+
+          <!-- Name -->
+          <div class="form-group">
+            <% name_was_invalid = resource.errors.include?(:name) %>
+            <% name_class = "form-control" %>
+            <% if was_validated %>
+              <% name_class << (name_was_invalid ? " is-invalid" : " is-valid") %>
+            <% end %>
+
+            <%= f.label :name %>
+            <%= f.text_field :name, class: name_class, placeholder: "Enter your name" %>
+
+            <% if name_was_invalid %>
+              <% resource.errors.full_messages_for(:name).each do |message| %>
+                <div class="invalid-feedback"><%= message %></div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <% email_was_invalid = resource.errors.include?(:email) %>
+            <% email_class = "form-control" %>
+            <% if was_validated %>
+              <% email_class << (email_was_invalid ? " is-invalid" : " is-valid") %>
+            <% end %>
+
+            <%= f.label :email %>
+            <%= f.email_field :email, class: email_class, autofocus: true, autocomplete: "email" %>
+
+            <% if email_was_invalid %>
+              <% resource.errors.full_messages_for(:email).each do |message| %>
+                <div class="invalid-feedback"><%= message %></div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <% password_was_invalid = resource.errors.include?(:password) %>
+            <% password_class = "form-control" %>
+            <% if was_validated %>
+              <% password_class << (password_was_invalid ? " is-invalid" : " is-valid") %>
+            <% end %>
+
+            <%= f.label :password %>
+            <%= f.password_field :password, class: password_class, autocomplete: "new-password" %>
+            <% if @minimum_password_length %>
+              <small class="form-text text-muted">
+                <%= @minimum_password_length %> characters minimum
+              </small>
+            <% end %>
+
+            <% if password_was_invalid %>
+              <% resource.errors.full_messages_for(:password).each do |message| %>
+                <div class="invalid-feedback"><%= message %></div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <!-- Password Confirmation -->
+          <div class="form-group">
+            <% password_confirmation_was_invalid = resource.errors.include?(:password_confirmation) %>
+            <% password_confirmation_class = "form-control" %>
+            <% if was_validated %>
+              <% password_confirmation_class << (password_confirmation_was_invalid ? " is-invalid" : " is-valid") %>
+            <% end %>
+
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation, class: password_confirmation_class, autocomplete: "new-password" %>
+
+            <% if password_confirmation_was_invalid %>
+              <% resource.errors.full_messages_for(:password_confirmation).each do |message| %>
+                <div class="invalid-feedback"><%= message %></div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <!-- Submit -->
+          <%= f.button "Sign Up" , class: "btn btn-outline-primary btn-block" %>
+
+          <hr>
+          <%= render "devise/shared/links" %>
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

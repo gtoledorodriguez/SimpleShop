@@ -1,9 +1,9 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: %i[ show edit update destroy ]
+  before_action :set_item, only: [ :edit, :update, :destroy ]
 
   # GET /items or /items.json
   def index
-    @items = Item.all
+    @items = Item.joins(:business).where(businesses: { owner_id: current_user.id })
   end
 
   # GET /items/1 or /items/1.json

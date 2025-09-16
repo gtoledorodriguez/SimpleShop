@@ -1,16 +1,47 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Items" %>
 
-<h1>Items</h1>
-
-<div id="items">
-  <% @items.each do |item| %>
-    <%= render item %>
-    <p>
-      <%= link_to "Show this item", item %>
-    </p>
-  <% end %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1><%= current_user.businesses.first.name if current_user.businesses.any? %> Inventory</h1>
+  <%= link_to "Add Item", new_item_path, class: "btn btn-outline-primary" %>
 </div>
 
-<%= link_to "New item", new_item_path %>
+
+<div class="table-responsive mt-4">
+  <table class="table table-hover table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr>
+        <th>Item Name</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th>Quantity</th>
+        <th>Low Stock Threshold</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @items.each do |item| %>
+        <tr>
+          <td><%= item.name %></td>
+          <td>$<%= number_to_currency(item.price, unit: "") %></td>
+          <td>
+            <% case item.status %>
+            <% when "In Stock" %>
+              <span class="badge bg-success"><%= item.status %></span>
+            <% when "Low Stock" %>
+              <span class="badge bg-warning text-dark"><%= item.status %></span>
+            <% when "Sold Out" %>
+              <span class="badge bg-danger"><%= item.status %></span>
+            <% end %>
+          </td>
+          <td><%= item.quantity_in_stock %></td>
+          <td><%= item.low_stock_threshold %></td>
+          <td>
+            <%= link_to "View", item, class: "btn btn-sm btn-outline-primary" %>
+            <%= link_to "Edit", edit_item_path(item), class: "btn btn-sm btn-outline-secondary" %>
+            <%= link_to "Delete", item, data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-sm btn-outline-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

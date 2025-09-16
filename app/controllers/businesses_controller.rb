@@ -1,9 +1,11 @@
 class BusinessesController < ApplicationController
   before_action :set_business, only: %i[ show edit update destroy ]
 
+  # Commented out cause don't need it for MVP Features but will be used in Future Features
   # GET /businesses or /businesses.json
   def index
-    @businesses = Business.all
+      redirect_to root_path, alert: "You cannot access businesses at this time."
+    @businesses = current_user.businesses
   end
 
   # GET /businesses/1 or /businesses/1.json
@@ -22,6 +24,7 @@ class BusinessesController < ApplicationController
   # POST /businesses or /businesses.json
   def create
     @business = Business.new(business_params)
+    @business.owner = current_user  # always set owner to current user
 
     respond_to do |format|
       if @business.save
@@ -58,13 +61,14 @@ class BusinessesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_business
-      @business = Business.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def business_params
-      params.expect(business: [ :name, :owner_id, :items_count ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_business
+    @business = Business.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def business_params
+    params.expect(business: [ :name ])
+  end
 end

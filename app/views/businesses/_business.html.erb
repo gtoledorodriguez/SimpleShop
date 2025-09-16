@@ -1,17 +1,17 @@
-<div id="<%= dom_id business %>">
-  <p>
-    <strong>Name:</strong>
-    <%= business.name %>
-  </p>
+<div id="<%= dom_id business %>" class="card mb-3">
+  <div class="card-header">
+    <h5 class="mb-0"><%= business.name %></h5>
+  </div>
 
-  <p>
-    <strong>Owner:</strong>
-    <%= business.owner_id %>
-  </p>
+  <div class="card-body">
+    <p class="card-text">
+      <strong>Owner:</strong>
+      <%= business.owner&.name || "Unknown" %>
+    </p>
 
-  <p>
-    <strong>Items count:</strong>
-    <%= business.items_count %>
-  </p>
-
+    <p class="card-text">
+      <strong>Total Inventory:</strong>
+      <%= business.items_count %>
+    </p>
+  </div>
 </div>

@@ -8,11 +8,13 @@ class ItemsController < ApplicationController
 
   # GET /items/1 or /items/1.json
   def show
+    @item = Item.find(params[:id])
   end
 
   # GET /items/new
   def new
     @item = Item.new
+    @item.business = current_user.businesses.first # assign user's first business
   end
 
   # GET /items/1/edit
@@ -22,6 +24,7 @@ class ItemsController < ApplicationController
   # POST /items or /items.json
   def create
     @item = Item.new(item_params)
+    @item.business = current_user.businesses.first # assign user's first business
 
     respond_to do |format|
       if @item.save

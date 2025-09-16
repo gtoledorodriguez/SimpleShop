@@ -1,32 +1,35 @@
-<div id="<%= dom_id item %>">
-  <p>
-    <strong>Business:</strong>
-    <%= item.business_id %>
-  </p>
+<div id="<%= dom_id item %>" class="card mb-3">
+  <div class="card-header">
+    <h5 class="mb-0"><%= item.name %></h5>
+  </div>
 
-  <p>
-    <strong>Name:</strong>
-    <%= item.name %>
-  </p>
+  <div class="card-body">
+    <p class="card-text mb-2">
+      <strong>Status:</strong>
+      <span class="badge 
+        <%= case item.status
+            when "In Stock" then "bg-success"
+            when "Low Stock" then "bg-warning text-dark"
+            when "Sold Out" then "bg-danger"
+            end %>">
+        <%= item.status %>
+      </span>
+    </p>
 
-  <p>
-    <strong>Price:</strong>
-    <%= item.price %>
-  </p>
+    <p class="card-text mb-2">
+      <strong>Price:</strong> $<%= number_to_currency(item.price, unit: "", precision: 2) %>
+    </p>
 
-  <p>
-    <strong>Quantity in stock:</strong>
-    <%= item.quantity_in_stock %>
-  </p>
+    <p class="card-text mb-2">
+      <strong>Quantity in stock:</strong> <%= item.quantity_in_stock %>
+    </p>
 
-  <p>
-    <strong>Low stock threshold:</strong>
-    <%= item.low_stock_threshold %>
-  </p>
+    <p class="card-text mb-2">
+      <strong>Low stock threshold:</strong> <%= item.low_stock_threshold %>
+    </p>
 
-  <p>
-    <strong>Sales count:</strong>
-    <%= item.sales_count %>
-  </p>
-
+    <p class="card-text mb-2">
+      <strong>Sales count:</strong> <%= item.sales_count %>
+    </p>
+  </div>
 </div>

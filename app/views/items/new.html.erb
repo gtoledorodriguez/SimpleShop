@@ -1,11 +1,19 @@
-<% content_for :title, "New item" %>
+<% content_for :title, "Add Item" %>
 
-<h1>New item</h1>
+<div class="row">
+  <div class="offset-md-3 col-md-6">
+    <div class="card mb-3">
+      <h5 class="card-header">Add Item</h5>
 
-<%= render "form", item: @item %>
+      <div class="card-body">
+        <%= render "form", item: @item %>
 
-<br>
+        <hr>
 
-<div>
-  <%= link_to "Back to items", items_path %>
+        <div class="d-flex justify-content-start">
+          <%= link_to "Back to inventory", items_path, class: "btn btn-outline-secondary" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

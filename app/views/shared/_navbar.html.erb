@@ -11,42 +11,55 @@
         <% if user_signed_in? %>
           <li class="nav-item">
             <%= link_to items_path, class: "nav-link" do %>
-              <i class="fas fa-users fa-fw"></i></i>
+              <i class="fas fa-boxes-stacked fa-fw"></i>
 
-              Inventory
+            Inventory
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to sales_path, class: "nav-link" do %>
+            <i class="fas fa-receipt fa-fw"></i>
+
+            Sales
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <% if current_user.businesses.any? %>
+            <%= link_to business_path(current_user.businesses.first), class: "nav-link" do %>
+              <i class="fas fa-store fa-fw"></i>
+              <%= current_user.businesses.first.name %>
             <% end %>
-          </li>
-          <li class="nav-item">
-            <%= link_to sales_path, class: "nav-link" do %>
-              <i class="fas fa-compass fa-fw"></i>
-
-              Sales
+          <% else %>
+            <%= link_to new_business_path, class: "nav-link" do %>
+              <i class="fas fa-plus fa-fw"></i>
+              Create Business
             <% end %>
-          </li>
-        <% end %>
-      </ul>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
 
-      <ul class="navbar-nav ms-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <%= current_user.name %>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <%= link_to "Edit profile", edit_user_registration_path, class: "dropdown-item" %>
-              <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Sign in", new_user_session_path, class: "nav-link" %>
-          </li>
+    <ul class="navbar-nav ms-auto">
+      <% if user_signed_in? %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= current_user.name %>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%= link_to "Edit profile", edit_user_registration_path, class: "dropdown-item" %>
+            <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+          </div>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "Sign in", new_user_session_path, class: "nav-link" %>
+        </li>
 
-          <li class="nav-item">
-            <%= link_to "Sign up", new_user_registration_path, class: "nav-link" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+        <li class="nav-item">
+          <%= link_to "Sign up", new_user_registration_path, class: "nav-link" %>
+        </li>
+      <% end %>
+    </ul>
   </div>
+</div>
 </nav>

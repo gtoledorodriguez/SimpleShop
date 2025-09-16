@@ -3,7 +3,7 @@ class BusinessesController < ApplicationController
 
   # GET /businesses or /businesses.json
   def index
-    @businesses = Business.all
+    @businesses = current_user.businesses
   end
 
   # GET /businesses/1 or /businesses/1.json
@@ -22,6 +22,7 @@ class BusinessesController < ApplicationController
   # POST /businesses or /businesses.json
   def create
     @business = Business.new(business_params)
+    @business.owner = current_user  # always set owner to current user
 
     respond_to do |format|
       if @business.save
@@ -65,6 +66,6 @@ class BusinessesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def business_params
-      params.expect(business: [ :name, :owner_id, :items_count ])
+      params.expect(business: [ :name ])
     end
 end

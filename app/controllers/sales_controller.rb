@@ -1,9 +1,10 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [ :show, :edit, :update, :destroy ]
+  before_action :restrict_access, only: [ :edit, :update, :destroy, :void ]
 
   # GET /sales or /sales.json
   def index
-    @sales = Sale.all
+    @sales = current_user.business.sales
   end
 
   # GET /sales/1 or /sales/1.json
@@ -12,7 +13,7 @@ class SalesController < ApplicationController
 
   # GET /sales/new
   def new
-    @sale = Sale.new
+    @sale = current_user.business.sales.new
   end
 
   # GET /sales/1/edit
@@ -21,7 +22,7 @@ class SalesController < ApplicationController
 
   # POST /sales or /sales.json
   def create
-    @sale = Sale.new(sale_params)
+    @sale = current_user.business.sales.new(sale_params)
 
     respond_to do |format|
       if @sale.save
@@ -58,13 +59,19 @@ class SalesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_sale
-      @sale = Sale.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def sale_params
-      params.expect(sale: [ :item_id, :user_id, :quantity_sold, :total_price ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_sale
+    @sale = Sale.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def sale_params
+    params.expect(sale: [ :item_id, :user_id, :quantity_sold ])
+  end
+
+  def restrict_access
+    action = action_name.humanize
+    redirect_to root_path, alert: "You cannot access #{action} at this time. Please use void. Void is being implemented."
+  end
 end

@@ -1,10 +1,10 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [ :show, :edit, :update, :destroy ]
-  before_action :restrict_access, only: [ :edit, :update, :destroy, :void ]
+  before_action :restrict_access, only: [ :edit, :update, :destroy ]
 
   # GET /sales or /sales.json
   def index
-    @sales = current_user.business.sales
+    @sales = current_user.businesses.first.sales
   end
 
   # GET /sales/1 or /sales/1.json
@@ -13,7 +13,7 @@ class SalesController < ApplicationController
 
   # GET /sales/new
   def new
-    @sale = current_user.business.sales.new
+    @sale = current_user.businesses.first.sales.new
   end
 
   # GET /sales/1/edit
@@ -22,7 +22,7 @@ class SalesController < ApplicationController
 
   # POST /sales or /sales.json
   def create
-    @sale = current_user.business.sales.new(sale_params)
+    @sale = current_user.businesses.first.sales.new(sale_params)
 
     respond_to do |format|
       if @sale.save

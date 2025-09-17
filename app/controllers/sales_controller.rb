@@ -65,6 +65,6 @@ class SalesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sale_params
-      params.expect(sale: [ :item_id, :user_id, :quanitity_sold, :total_price ])
+      params.expect(sale: [ :item_id, :user_id, :quantity_sold, :total_price ])
     end
 end

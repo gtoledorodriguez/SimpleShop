@@ -1,16 +1,15 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Businesses" %>
 
-<h1>Businesses</h1>
-
-<div id="businesses">
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">My Businesses</h1>
+  <%= link_to "New Business", new_business_path, class: "btn btn-success" %>
+</div>
+<hr>
+<div id="businesses" class="row g-4">
   <% @businesses.each do |business| %>
-    <%= render business %>
-    <p>
-      <%= link_to "Show this business", business %>
-    </p>
+    <div class="col-md-4">
+      <%= render business %>
+      <%= link_to "Show this business", business, class: "btn btn-primary w-100" %>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New business", new_business_path %>

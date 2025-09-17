@@ -27,22 +27,29 @@ task sample_data: :environment do
     )
 
     rand(3..6).times do
+      stock = rand(0..20)  # initial stock
       item = business.items.create!(
         name: Faker::Commerce.product_name,
         price: Faker::Commerce.price(range: 5..100),
-        quantity_in_stock: rand(0..20),
+        quantity_in_stock: stock,
         low_stock_threshold: rand(3..7)
       )
 
-      # Create some sales for the item
+      # Generate sales respecting stock
+      remaining_stock = item.quantity_in_stock
       rand(1..5).times do
-        quantity = rand(1..3)
-        Sale.create!(
+        break if remaining_stock <= 0
+
+        quantity = rand(1..[ 3, remaining_stock ].min) # can't sell more than stock
+        sale = Sale.create!(
           item: item,
-          user: users.sample,
-          quantity_sold: quantity,
-          total_price: item.price * quantity
+          user: user,              # owner of the business
+          quantity_sold: quantity
         )
+
+        # Reduce stock to avoid validation errors
+        remaining_stock -= quantity
+        item.update!(quantity_in_stock: remaining_stock)
       end
     end
   end

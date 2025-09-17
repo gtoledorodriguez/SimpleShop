@@ -1,10 +1,10 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [ :show, :edit, :update, :destroy ]
-  before_action :restrict_access, only: [ :edit, :update, :destroy, :void ]
+  before_action :restrict_access, only: [ :edit, :update, :destroy ]
 
   # GET /sales or /sales.json
   def index
-    @sales = current_user.business.sales
+    @sales = current_user.businesses.first.sales
   end
 
   # GET /sales/1 or /sales/1.json
@@ -13,7 +13,7 @@ class SalesController < ApplicationController
 
   # GET /sales/new
   def new
-    @sale = current_user.business.sales.new
+    @sale = current_user.businesses.first.sales.new
   end
 
   # GET /sales/1/edit
@@ -22,11 +22,23 @@ class SalesController < ApplicationController
 
   # POST /sales or /sales.json
   def create
-    @sale = current_user.business.sales.new(sale_params)
+    @sale = current_user.businesses.first.sales.new(sale_params)
 
     respond_to do |format|
       if @sale.save
-        format.html { redirect_to @sale, notice: "Sale was successfully created." }
+        # Start with the default success message
+        notice_message = "Sale was successfully created."
+
+        # Append stock warning if applicable
+        if @sale.item.quantity_in_stock <= 0
+          flash[:alert] = "Item '#{@sale.item.name}' is now Sold Out!"
+        elsif @sale.item.quantity_in_stock <= @sale.item.low_stock_threshold
+          notice_message += " ⚠ Item '#{@sale.item.name}' is Low Stock!"
+        end
+
+        flash[:notice] = notice_message unless flash[:alert] # keep alert if sold out
+
+        format.html { redirect_to @sale }
         format.json { render :show, status: :created, location: @sale }
       else
         format.html { render :new, status: :unprocessable_entity }

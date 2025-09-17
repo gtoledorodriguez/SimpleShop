@@ -21,33 +21,31 @@ class SalesController < ApplicationController
   end
 
   # POST /sales or /sales.json
-  # POST /sales or /sales.json
-def create
-  @sale = current_user.businesses.first.sales.new(sale_params)
+  def create
+    @sale = current_user.businesses.first.sales.new(sale_params)
 
-  respond_to do |format|
-    if @sale.save
-      # Start with the default success message
-      notice_message = "Sale was successfully created."
+    respond_to do |format|
+      if @sale.save
+        # Start with the default success message
+        notice_message = "Sale was successfully created."
 
-      # Append stock warning if applicable
-      if @sale.item.quantity_in_stock <= 0
-        flash[:alert] = "Item '#{@sale.item.name}' is now Sold Out!"
-      elsif @sale.item.quantity_in_stock <= @sale.item.low_stock_threshold
-        notice_message += " ⚠ Item '#{@sale.item.name}' is Low Stock!"
+        # Append stock warning if applicable
+        if @sale.item.quantity_in_stock <= 0
+          flash[:alert] = "Item '#{@sale.item.name}' is now Sold Out!"
+        elsif @sale.item.quantity_in_stock <= @sale.item.low_stock_threshold
+          notice_message += " ⚠ Item '#{@sale.item.name}' is Low Stock!"
+        end
+
+        flash[:notice] = notice_message unless flash[:alert] # keep alert if sold out
+
+        format.html { redirect_to @sale }
+        format.json { render :show, status: :created, location: @sale }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
-
-      flash[:notice] = notice_message unless flash[:alert] # keep alert if sold out
-
-      format.html { redirect_to @sale }
-      format.json { render :show, status: :created, location: @sale }
-    else
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @sale.errors, status: :unprocessable_entity }
     end
   end
-end
-
 
   # PATCH/PUT /sales/1 or /sales/1.json
   def update

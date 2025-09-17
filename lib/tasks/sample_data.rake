@@ -40,7 +40,7 @@ task sample_data: :environment do
       rand(1..5).times do
         break if remaining_stock <= 0
 
-        quantity = rand(1..[3, remaining_stock].min) # can't sell more than stock
+        quantity = rand(1..[ 3, remaining_stock ].min) # can't sell more than stock
         sale = Sale.create!(
           item: item,
           user: user,              # owner of the business

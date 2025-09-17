@@ -40,7 +40,7 @@ task sample_data: :environment do
         Sale.create!(
           item: item,
           user: users.sample,
-          quanitity_sold: quantity,
+          quantity_sold: quantity,
           total_price: item.price * quantity
         )
       end

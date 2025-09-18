@@ -13,25 +13,25 @@
   <!-- Name -->
   <div class="mb-3">
     <%= form.label :name, class: "form-label" %>
-    <%= form.text_field :name, class: "form-control" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
   </div>
 
   <!-- Price -->
   <div class="mb-3">
     <%= form.label :price, class: "form-label" %>
-    <%= form.number_field :price, step: 0.01, class: "form-control", min: 0 %>
+    <%= form.number_field :price, step: 0.01, class: "form-control", min: 0, required: true %>
   </div>
 
   <!-- Quantity in Stock -->
   <div class="mb-3">
     <%= form.label :quantity_in_stock, class: "form-label" %>
-    <%= form.number_field :quantity_in_stock, class: "form-control", min: 1 %>
+    <%= form.number_field :quantity_in_stock, class: "form-control", min: 1, required: true %>
   </div>
 
   <!-- Low Stock Threshold -->
   <div class="mb-3">
     <%= form.label :low_stock_threshold, class: "form-label" %>
-    <%= form.number_field :low_stock_threshold, class: "form-control", min: 1 %>
+    <%= form.number_field :low_stock_threshold, class: "form-control", min: 1, required: true %>
   </div>
 
   <!-- Submit Button -->

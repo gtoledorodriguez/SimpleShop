@@ -85,7 +85,7 @@ In production, `render.yaml` manages deployment with environment variables for:
 ---
 
 ## 🗂️ Entity Relationship Diagram (ERD)
-
+![ERD](erd.png)
 - **Business** has one **Owner** (`owner_id → Users.id`)  
 - **Business** has many **Users** and **Items**  
 - **User** belongs to a **Business** and records **Sales**  
@@ -134,6 +134,9 @@ Contributions are welcome!
 2. Commit your changes and push.  
 3. Open a Pull Request describing your changes.  
 
+---
+
+## ❓ Troubleshooting / FAQs
 ---
 
 ## ❓ Troubleshooting / FAQs

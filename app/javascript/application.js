@@ -10,4 +10,7 @@ import jquery from "jquery";
 window.jQuery = jquery;
 window.$ = jquery;
 import Rails from "@rails/ujs"
+
+import "sales_form"
+
 Rails.start();

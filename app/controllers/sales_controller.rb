@@ -29,17 +29,14 @@ class SalesController < ApplicationController
 
     respond_to do |format|
       if @sale.save
-        # Start with the default success message
-        notice_message = "Sale was successfully created."
+        flash[:notice] = "Sale was successfully created."
 
         # Append stock warning if applicable
         if @sale.item.quantity_in_stock <= 0
           flash[:alert] = "Item '#{@sale.item.name}' is now Sold Out!"
         elsif @sale.item.quantity_in_stock <= @sale.item.low_stock_threshold
-          notice_message += " ⚠ Item '#{@sale.item.name}' is Low Stock!"
+          flash[:warning] = " ⚠ Item '#{@sale.item.name}' is Low Stock!"
         end
-
-        flash[:notice] = notice_message unless flash[:alert] # keep alert if sold out
 
         format.html { redirect_to @sale }
         format.json { render :show, status: :created, location: @sale }

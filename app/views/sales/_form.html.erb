@@ -1,3 +1,7 @@
+<div id="item_prices_json" style="display:none">
+  <%= raw current_user.businesses.first.items.order(:name).map { |i| [i.id, i.price] }.to_h.to_json %>
+</div>
+
 <%= form_with(model: sale, local: true, html: { class: "needs-validation" }) do |form| %>
   <% if sale.errors.any? %>
     <div class="alert alert-danger">
@@ -10,29 +14,36 @@
     </div>
   <% end %>
 
-  <!-- Item ID -->
+  <!-- Item Dropdown -->
   <div class="mb-3">
-    <%= form.label :item_id, class: "form-label" %>
-    <%= form.number_field :item_id, class: "form-control" %>
+    <%= form.label :item_id, "Item", class: "form-label" %>
+    <%= form.collection_select :item_id, current_user.businesses.first.items.order(:name), :id, :name, 
+          { prompt: "Select an item" }, 
+          { class: "form-select", id: "sale_item_id" } %>
   </div>
 
-  <!-- User ID -->
+  <!-- Show item price -->
   <div class="mb-3">
-    <%= form.label :user_id, class: "form-label" %>
-    <%= form.number_field :user_id, class: "form-control" %>
+    <label class="form-label">Price</label>
+    <input type="text" id="item_price" class="form-control" readonly>
   </div>
 
   <!-- Quantity Sold -->
   <div class="mb-3">
     <%= form.label :quantity_sold, class: "form-label" %>
-    <%= form.number_field :quantity_sold, class: "form-control" %>
+    <%= form.number_field :quantity_sold, class: "form-control", id: "quantity_sold", min: 1 %>
   </div>
 
   <!-- Total Price -->
   <div class="mb-3">
-    <%= form.label :total_price, class: "form-label" %>
-    <%= form.text_field :total_price, class: "form-control", readonly: true %>
+    <label class="form-label">Total Price</label>
+    <input type="text" id="total_price" class="form-control" readonly>
   </div>
+
+  <!-- Calculate button  -->
+ <!-- <div class="mb-3">
+    <button type="button" id="calculate_total" class="btn btn-outline-secondary">Calculate Total</button>
+  </div>-->
 
   <!-- Submit Button -->
   <div class="d-grid mt-3">

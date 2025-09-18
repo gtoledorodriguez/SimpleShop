@@ -19,19 +19,19 @@
   <!-- Price -->
   <div class="mb-3">
     <%= form.label :price, class: "form-label" %>
-    <%= form.number_field :price, step: 0.01, class: "form-control" %>
+    <%= form.number_field :price, step: 0.01, class: "form-control", min: 0 %>
   </div>
 
   <!-- Quantity in Stock -->
   <div class="mb-3">
     <%= form.label :quantity_in_stock, class: "form-label" %>
-    <%= form.number_field :quantity_in_stock, class: "form-control" %>
+    <%= form.number_field :quantity_in_stock, class: "form-control", min: 1 %>
   </div>
 
   <!-- Low Stock Threshold -->
   <div class="mb-3">
     <%= form.label :low_stock_threshold, class: "form-label" %>
-    <%= form.number_field :low_stock_threshold, class: "form-control" %>
+    <%= form.number_field :low_stock_threshold, class: "form-control", min: 1 %>
   </div>
 
   <!-- Submit Button -->

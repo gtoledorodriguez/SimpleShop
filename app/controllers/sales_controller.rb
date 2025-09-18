@@ -4,7 +4,7 @@ class SalesController < ApplicationController
 
   # GET /sales or /sales.json
   def index
-    @sales = current_user.businesses.first.sales
+    @sales = current_user.businesses.first.sales.order(created_at: :desc)
   end
 
   # GET /sales/1 or /sales/1.json
@@ -14,6 +14,7 @@ class SalesController < ApplicationController
   # GET /sales/new
   def new
     @sale = current_user.businesses.first.sales.new
+    @sale.user_id = current_user.id
   end
 
   # GET /sales/1/edit
@@ -23,6 +24,8 @@ class SalesController < ApplicationController
   # POST /sales or /sales.json
   def create
     @sale = current_user.businesses.first.sales.new(sale_params)
+    @sale.user_id = current_user.id
+
 
     respond_to do |format|
       if @sale.save
@@ -82,6 +85,7 @@ class SalesController < ApplicationController
     params.expect(sale: [ :item_id, :user_id, :quantity_sold ])
   end
 
+  # Sends alert restricting access
   def restrict_access
     action = action_name.humanize
     redirect_to root_path, alert: "You cannot access #{action} at this time. Please use void. Void is being implemented."

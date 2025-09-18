@@ -15,7 +15,7 @@ task sample_data: :environment do
       name: name,
       email: "#{name.downcase}@example.com",
       password: "appdev",
-      password_confirmation: "appdev"
+      password_confirmation: "appdev",
     )
   end
 
@@ -23,7 +23,7 @@ task sample_data: :environment do
   users.each do |user|
     business = Business.create!(
       name: "#{user.name}'s #{Faker::Company.industry}",
-      owner: user
+      owner: user,
     )
 
     rand(3..6).times do
@@ -32,7 +32,7 @@ task sample_data: :environment do
         name: Faker::Commerce.product_name,
         price: Faker::Commerce.price(range: 5..100),
         quantity_in_stock: stock,
-        low_stock_threshold: rand(3..7)
+        low_stock_threshold: rand(3..7),
       )
 
       # Generate sales respecting stock
@@ -44,7 +44,8 @@ task sample_data: :environment do
         sale = Sale.create!(
           item: item,
           user: user,              # owner of the business
-          quantity_sold: quantity
+          quantity_sold: quantity,
+          created_at: rand(0..7).days.ago + rand(0..23).hours + rand(0..59).minutes, # random date in past week
         )
 
         # Reduce stock to avoid validation errors

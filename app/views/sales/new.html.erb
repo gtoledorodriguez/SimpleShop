@@ -1,11 +1,19 @@
-<% content_for :title, "New sale" %>
+<% content_for :title, "New Sale" %>
 
-<h1>New sale</h1>
+<div class="row">
+  <div class="offset-md-3 col-md-6">
+    <div class="card mb-3">
+      <h5 class="card-header">New Sale</h5>
 
-<%= render "form", sale: @sale %>
+      <div class="card-body">
+        <%= render "form", sale: @sale %>
 
-<br>
+        <hr>
 
-<div>
-  <%= link_to "Back to sales", sales_path %>
+        <div class="d-flex justify-content-start">
+          <%= link_to "Back to sales", sales_path, class: "btn btn-outline-secondary" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,16 +1,35 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Sales" %>
 
-<h1>Sales</h1>
-
-<div id="sales">
-  <% @sales.each do |sale| %>
-    <%= render sale %>
-    <p>
-      <%= link_to "Show this sale", sale %>
-    </p>
-  <% end %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Sales</h1>
+  <%= link_to "New Sale", new_sale_path, class: "btn btn-outline-primary" %>
 </div>
 
-<%= link_to "New sale", new_sale_path %>
+<div class="table-responsive mt-4">
+  <table class="table table-hover table-bordered table-sm align-middle text-center">
+    <thead class="table-light">
+      <tr>
+        <th>Item</th>
+        <th>Quantity Sold</th>
+        <th>Total Price</th>
+        <th>Sold Date</th>
+        <th>Sold By</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sales.each do |sale| %>
+        <tr id="<%= dom_id sale  %>">
+          <td><%= sale.item.name %></td>
+          <td><%= sale.quantity_sold %></td>
+          <td>$<%= number_to_currency(sale.total_price, unit: "", precision: 2) %></td>
+          <td><%= sale.created_at.strftime("%b %d, %Y %l:%M %p") %></td>
+          <td><%= sale.user.name %></td>
+          <td>
+            <%= link_to "View", sale, class: "btn btn-sm btn-outline-primary" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

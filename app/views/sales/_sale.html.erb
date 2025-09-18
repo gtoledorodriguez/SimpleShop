@@ -1,22 +1,32 @@
-<div id="<%= dom_id sale %>">
-  <p>
-    <strong>Item:</strong>
-    <%= sale.item_id %>
-  </p>
+<div id="<%= dom_id sale %>" class="card mb-3">
+  <div class="card-header">
+    <h5 class="mb-0">Sale #<%= sale.id %></h5>
+  </div>
 
-  <p>
-    <strong>User:</strong>
-    <%= sale.user_id %>
-  </p>
+  <div class="card-body">
+    <p class="card-text mb-2">
+      <strong>Item:</strong>
+      <%= sale.item.name %> (ID: <%= sale.item_id %>)
+    </p>
 
-  <p>
-    <strong>Quanitity sold:</strong>
-    <%= sale.quantity_sold %>
-  </p>
+    <p class="card-text mb-2">
+      <strong>Sold By:</strong>
+      <%= sale.user.name %> (ID: <%= sale.user_id %>)
+    </p>
 
-  <p>
-    <strong>Total price:</strong>
-    <%= sale.total_price %>
-  </p>
+    <p class="card-text mb-2">
+      <strong>Quantity sold:</strong>
+      <%= sale.quantity_sold %>
+    </p>
 
+    <p class="card-text mb-2">
+      <strong>Total price:</strong>
+      $<%= number_to_currency(sale.total_price, unit: "", precision: 2) %>
+    </p>
+
+    <p class="card-text mb-2">
+      <strong>Sold Date:</strong>
+      <%= sale.created_at.strftime("%b %d, %Y %l:%M %p") %>
+    </p>
+  </div>
 </div>

@@ -17,9 +17,12 @@ class Item < ApplicationRecord
   has_many :sales, class_name: "Sale", foreign_key: "item_id", dependent: :nullify
 
   def status
-    if quantity_in_stock <= 0
+    qty = quantity_in_stock || 0
+    threshold = low_stock_threshold || 0
+
+    if qty <= 0
       "Sold Out"
-    elsif quantity_in_stock <= low_stock_threshold
+    elsif qty <= threshold
       "Low Stock"
     else
       "In Stock"

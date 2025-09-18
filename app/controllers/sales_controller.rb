@@ -4,7 +4,7 @@ class SalesController < ApplicationController
 
   # GET /sales or /sales.json
   def index
-    @sales = current_user.businesses.first.sales
+    @sales = current_user.businesses.first.sales.order(created_at: :desc)
   end
 
   # GET /sales/1 or /sales/1.json
@@ -14,6 +14,7 @@ class SalesController < ApplicationController
   # GET /sales/new
   def new
     @sale = current_user.businesses.first.sales.new
+    @sale.user_id = current_user.id
   end
 
   # GET /sales/1/edit
@@ -23,20 +24,19 @@ class SalesController < ApplicationController
   # POST /sales or /sales.json
   def create
     @sale = current_user.businesses.first.sales.new(sale_params)
+    @sale.user_id = current_user.id
+
 
     respond_to do |format|
       if @sale.save
-        # Start with the default success message
-        notice_message = "Sale was successfully created."
+        flash[:notice] = "Sale was successfully created."
 
         # Append stock warning if applicable
         if @sale.item.quantity_in_stock <= 0
           flash[:alert] = "Item '#{@sale.item.name}' is now Sold Out!"
         elsif @sale.item.quantity_in_stock <= @sale.item.low_stock_threshold
-          notice_message += " ⚠ Item '#{@sale.item.name}' is Low Stock!"
+          flash[:warning] = " ⚠ Item '#{@sale.item.name}' is Low Stock!"
         end
-
-        flash[:notice] = notice_message unless flash[:alert] # keep alert if sold out
 
         format.html { redirect_to @sale }
         format.json { render :show, status: :created, location: @sale }
@@ -82,6 +82,7 @@ class SalesController < ApplicationController
     params.expect(sale: [ :item_id, :user_id, :quantity_sold ])
   end
 
+  # Sends alert restricting access
   def restrict_access
     action = action_name.humanize
     redirect_to root_path, alert: "You cannot access #{action} at this time. Please use void. Void is being implemented."

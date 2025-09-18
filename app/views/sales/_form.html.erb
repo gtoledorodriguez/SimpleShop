@@ -1,37 +1,52 @@
-<%= form_with(model: sale) do |form| %>
-  <% if sale.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+<div id="item_prices_json" style="display:none">
+  <%= raw current_user.businesses.first.items.order(:name).map { |i| [i.id, i.price] }.to_h.to_json %>
+</div>
 
+<%= form_with(model: sale, local: true, html: { class: "needs-validation" }) do |form| %>
+  <% if sale.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(sale.errors.count, "error") %> prohibited this sale from being saved:</h4>
       <ul>
-        <% sale.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% sale.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :item_id, style: "display: block" %>
-    <%= form.number_field :item_id %>
+  <!-- Item Dropdown -->
+  <div class="mb-3">
+    <%= form.label :item_id, "Item", class: "form-label" %>
+    <%= form.collection_select :item_id, current_user.businesses.first.items.order(:name), :id, :name, 
+          { prompt: "Select an item" }, 
+          { class: "form-select", id: "sale_item_id" } %>
   </div>
 
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.number_field :user_id %>
+  <!-- Show item price -->
+  <div class="mb-3">
+    <label class="form-label">Price</label>
+    <input type="text" id="item_price" class="form-control" readonly>
   </div>
 
-  <div>
-    <%= form.label :quantity_sold, style: "display: block" %>
-    <%= form.number_field :quantity_sold %>
+  <!-- Quantity Sold -->
+  <div class="mb-3">
+    <%= form.label :quantity_sold, class: "form-label" %>
+    <%= form.number_field :quantity_sold, class: "form-control", id: "quantity_sold", min: 1, required: true %>
   </div>
 
-  <div>
-    <%= form.label :total_price, style: "display: block" %>
-    <%= form.text_field :total_price %>
+  <!-- Total Price -->
+  <div class="mb-3">
+    <label class="form-label">Total Price</label>
+    <input type="text" id="total_price" class="form-control" readonly>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <!-- Calculate button  -->
+ <!-- <div class="mb-3">
+    <button type="button" id="calculate_total" class="btn btn-outline-secondary">Calculate Total</button>
+  </div>-->
+
+  <!-- Submit Button -->
+  <div class="d-grid mt-3">
+    <%= form.submit "Save", class: "btn btn-outline-primary" %>
   </div>
 <% end %>

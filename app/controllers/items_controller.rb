@@ -26,6 +26,11 @@ class ItemsController < ApplicationController
     @item = Item.new(item_params)
     @item.business = current_user.businesses.first # assign user's first business
 
+    # Set nil fields to 0
+    @item.price ||= 0
+    @item.quantity_in_stock ||= 0
+    @item.low_stock_threshold ||= 0
+
     respond_to do |format|
       if @item.save
         format.html { redirect_to @item, notice: "Item was successfully created." }
@@ -39,6 +44,11 @@ class ItemsController < ApplicationController
 
   # PATCH/PUT /items/1 or /items/1.json
   def update
+    # Before updating, ensure nil fields become 0
+    params[:item][:price] = 0 if params[:item][:price].nil?
+    params[:item][:quantity_in_stock] = 0 if params[:item][:quantity_in_stock].nil?
+    params[:item][:low_stock_threshold] = 0 if params[:item][:low_stock_threshold].nil?
+
     respond_to do |format|
       if @item.update(item_params)
         format.html { redirect_to @item, notice: "Item was successfully updated." }
@@ -61,13 +71,14 @@ class ItemsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_item
-      @item = Item.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def item_params
-      params.expect(item: [ :business_id, :name, :price, :quantity_in_stock, :low_stock_threshold, :sales_count ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_item
+    @item = Item.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def item_params
+    params.expect(item: [ :business_id, :name, :price, :quantity_in_stock, :low_stock_threshold, :sales_count ])
+  end
 end

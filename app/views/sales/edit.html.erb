@@ -1,12 +1,20 @@
-<% content_for :title, "Editing sale" %>
+<% content_for :title, "Editing Sale" %>
 
-<h1>Editing sale</h1>
+<div class="row">
+  <div class="offset-md-3 col-md-6">
+    <div class="card mb-3">
+      <h5 class="card-header">Editing Sale</h5>
+      
+      <div class="card-body">
+        <%= render "form", sale: @sale %>
+        
+        <hr>
 
-<%= render "form", sale: @sale %>
-
-<br>
-
-<div>
-  <%= link_to "Show this sale", @sale %> |
-  <%= link_to "Back to sales", sales_path %>
+        <div class="d-flex justify-content-between">
+          <%= link_to "Show this sale", sale_path(@sale), class: "btn btn-outline-secondary" %>
+          <%= link_to "Back to sales", sales_path, class: "btn btn-outline-secondary" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

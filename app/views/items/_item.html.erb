@@ -6,6 +6,7 @@
   <div class="card-body">
     <p class="card-text mb-2">
       <strong>Status:</strong>
+      <%# NOTE: We love this use of `case` %>
       <span class="badge 
         <%= case item.status
             when "In Stock" then "bg-success"

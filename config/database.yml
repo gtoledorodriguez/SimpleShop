@@ -14,7 +14,7 @@
 #
 default: &default
   adapter: postgresql
-  encoding: unicode
+  encoding: utf8 # NOTE: Changed from `unicode` to `utf8` since we encounter `PG::UnableToSend: client_encoding: unsupported encoding requested: unicode`
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Rails 8 Template" %></title>
+    <title><%= content_for(:title) || "Rails 8 Template" %></title> <%# NOTE: Don't forget to change the title from the default template name %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -30,6 +30,7 @@
     <div class="container">
       <div class="row mb-4">
         <div class="col-md-6 offset-md-3">
+          <%# NOTE: The flash logic loop could've been inside `_flash.html.erb` partial %>
           <% flash.each do |key, message| %>
             <% css_class = case key.to_sym
            when :notice then "success"

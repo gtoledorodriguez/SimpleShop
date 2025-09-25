@@ -1,4 +1,5 @@
 class RakeTasksController < ApplicationController
+  # NOTE: Great job having this, it was easier for us to test this application
   skip_before_action :authenticate_user!, only: [ :show, :run_task ]
 
   http_basic_authenticate_with name: ENV.fetch("RAKE_TASK_USERNAME"), password: ENV.fetch("RAKE_TASK_PASSWORD")

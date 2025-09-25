@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # NOTE: Awesome clean routes, might suggest closing off some routes for views that may not be used
   resources :sales
   resources :items, path: "inventory"
   devise_for :users

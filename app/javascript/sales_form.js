@@ -1,4 +1,5 @@
 function initSalesForm() {
+  // NOTE: Awesome job, love to see javascript being implemented
   console.log("Sales form JS initialized");
 
   const itemSelect = document.getElementById("sale_item_id");

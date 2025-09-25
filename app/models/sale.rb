@@ -15,7 +15,8 @@ class Sale < ApplicationRecord
   belongs_to :user, required: true, class_name: "User", foreign_key: "user_id", counter_cache: true
 
   has_one :business, through: :item
-
+  
+  # NOTE: Great job on implementing model callbacks
   before_validation :set_total_price   # calculate price before saving
   validate :enough_stock               # make sure stock exists
 

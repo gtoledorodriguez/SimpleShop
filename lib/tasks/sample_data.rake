@@ -1,4 +1,5 @@
 desc "Generate sample data for testing"
+# NOTE: This is great! Thanks for having a sample_data
 task sample_data: :environment do
   require "faker"
 

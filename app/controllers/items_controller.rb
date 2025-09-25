@@ -24,6 +24,7 @@ class ItemsController < ApplicationController
   # POST /items or /items.json
   def create
     @item = Item.new(item_params)
+    # NOTE: Would love to see business logic in the model, keeping the controllers/views clean 
     @item.business = current_user.businesses.first # assign user's first business
 
     # Set nil fields to 0

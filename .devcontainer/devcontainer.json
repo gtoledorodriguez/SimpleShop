@@ -12,6 +12,7 @@
     "PGPASSWORD": "postgres",
     "PGDATABASE": "postgres",
     // "DATABASE_URL": "postgres://student:postgres@localhost:5432/rails_8_template?encoding=utf8&pool=5&timeout=5000",
+    // NOTE: ‼️ This is critical security vulnerablity since you are exposing your database api key ‼️, would have this in the `.env` file
     "DATABASE_URL": "postgresql://0ta1al:xau_3I1dZRjUvmsDjD6Fvha9npxzwpRDcgnr0@us-east-1.sql.xata.sh/simple-shop:main?sslmode=require"
   },
   // Features to add to the dev container. More info: https://containers.dev/features.
